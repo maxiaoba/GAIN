@@ -14,7 +14,6 @@
 import numpy as np
 import tensorflow as tf
 
-
 def normalization (data):
   '''Normalize data in [0, 1] range.
   
@@ -118,6 +117,28 @@ def rmse_loss (ori_data, imputed_data, data_m):
   
   return rmse
 
+def mae_loss (ori_data, imputed_data, data_m):
+  '''Compute MAE loss between ori_data and imputed_data
+  
+  Args:
+    - ori_data: original data without missing values
+    - imputed_data: imputed data
+    - data_m: indicator matrix for missingness
+    
+  Returns:
+    - rmse: Root Mean Squared Error
+  '''
+  
+  ori_data, _ = normalization(ori_data)
+  imputed_data, _ = normalization(imputed_data)
+    
+  # Only for missing values
+  nominator = np.sum(np.abs((1-data_m) * ori_data - (1-data_m) * imputed_data))
+  denominator = np.sum(1-data_m)
+  
+  mae = nominator/float(denominator)
+  
+  return mae
 
 def xavier_init(size):
   '''Xavier initialization.

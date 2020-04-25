@@ -6,8 +6,7 @@ import numpy as np
 from utils import binary_sampler
 from keras.datasets import mnist
 
-
-def data_loader (data_name, miss_rate):
+def data_loader(data_name, miss_rate):
   '''Loads datasets and introduce missingness.
   
   Args:
@@ -27,6 +26,9 @@ def data_loader (data_name, miss_rate):
   elif data_name == 'mnist':
     (data_x, _), _ = mnist.load_data()
     data_x = np.reshape(np.asarray(data_x), [60000, 28*28]).astype(float)
+  else:
+    file_name = 'data/uci/'+data_name+'/data/data.txt'
+    data_x = np.loadtxt(file_name)[:,:-1]
 
   # Parameters
   no, dim = data_x.shape
